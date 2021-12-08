@@ -14,16 +14,23 @@ Homework 13 Object-Relational Mapping (ORM): E-Commerce Back End
 
 
 ## Description:
-    Add description here.
+    This repository holds the back-end code for an ecommerce website and utilizes an Express.JS API, Sequelize npm package and MySQL database. Note that this repository does not have a front end and that walkthrough videos are available at the bottom of this README file.
+
+    This backend repository allows for get all, get by Id, Update by Id, Create, and Delete by Id requests for three different models. The models include product, tag, and category.
 
 ## Screenshot:
-![E-Commerce Back End finished application screeshot](./App_Screenshot.PNG)
+    This screenshot shows the routes for the E-Commerce back end project.
+![Routes for E-Commerce back end project](./Routes.PNG)
 
 ## Installation
-    Add installation instructions here.
+    1. Install mysql.
+    2. Install the following NPM packages: Express, Sequelize and dotenv.
+    3. Run the schema.sql file to create the database.
+    4. Run 'npm run seed' in terminal to seed database.
+    5. Start server.
 
 ## Instructions
-    Add instructions here.
+    N/A. Only backend code available here.
     
 ## Liscense
     MIT
@@ -38,4 +45,5 @@ calvinswomley@gmail.com | [https://github.com/calvinswomley](https://github.com/
 [https://github.com/calvinswomley/Homework13-E-CommerceBackEnd](https://github.com/calvinswomley/Homework13-E-CommerceBackEnd)
 
 ## Video Recording Link
-[add here](add here)
+Video 1: https://watch.screencastify.com/v/GBypU230znhmCd17vFeI
+Video 2: https://watch.screencastify.com/v/1D3jlgbfhw64sEUY4dfT

@@ -39,55 +39,31 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   // create a new category
-  Category.create(req.body)
-    .then((category) => {
-      res.status(200).json(category);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(400).json(err);
-    });
+  try {
+    const categoryCreate = await Category.create(req.body);
+    res.status(200).json(categoryCreate);
+  } catch (err) {
+    res.status(400).json(err);
+  };
 });
 
-router.put('/:id', (req, res) => {
-  Category.update(req.body, {
-    where: {
-      id: req.params.id,
-    },
-  })
-    .then((category) => {
-      return ProductTag.findAll({ where: { product_id: req.params.id } });
-    })
-    .then((productTags) => {
-      // get list of current tag_ids
-      const productTagIds = productTags.map(({ tag_id }) => tag_id);
-      // create filtered list of new tag_ids
-      const newProductTags = req.body.tagIds
-        .filter((tag_id) => !productTagIds.includes(tag_id))
-        .map((tag_id) => {
-          return {
-            product_id: req.params.id,
-            tag_id,
-          };
-        });
-      // figure out which ones to remove
-      const productTagsToRemove = productTags
-        .filter(({ tag_id }) => !req.body.tagIds.includes(tag_id))
-        .map(({ id }) => id);
-
-      // run both actions
-      return Promise.all([
-        ProductTag.destroy({ where: { id: productTagsToRemove } }),
-        ProductTag.bulkCreate(newProductTags),
-      ]);
-    })
-    .then((updatedProductTags) => res.json(updatedProductTags))
-    .catch((err) => {
-      // console.log(err);
-      res.status(400).json(err);
+router.put('/:id', async (req, res) => {
+  try {
+    const categoryUpdate = await Category.update(req.body, {
+      where: {
+        id: req.params.id,
+      },
     });
+    if (!categoryUpdate) {
+      res.status(404).json({ message: 'No category found with this id!' });
+      return;
+    }
+    res.status(200).json(categoryUpdate);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 router.delete('/:id', async (req, res) => {
@@ -98,12 +74,10 @@ router.delete('/:id', async (req, res) => {
         id: req.params.id
       }
     });
-
     if (!deleteCategoryData) {
       res.status(404).json({ message: 'No category found with this id!' });
       return;
     }
-
     res.status(200).json(deleteCategoryData);
   } catch (err) {
     res.status(500).json(err);
